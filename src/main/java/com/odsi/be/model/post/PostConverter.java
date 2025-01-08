@@ -1,8 +1,8 @@
 package com.odsi.be.model.post;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class PostConverter {
     public PostDto toDto(Post post) {
         return new PostDto(post.getId(), post.getTitle(), post.getContent());
