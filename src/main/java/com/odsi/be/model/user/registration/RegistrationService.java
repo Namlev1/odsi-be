@@ -12,12 +12,14 @@ import org.springframework.stereotype.Service;
 public class RegistrationService {
     private final RegistrationConverter converter;
     private final UserRepository repository;
+    private final PasswordValidator passwordValidator;
+    private final UsernameValidator usernameValidator;
 
     public void register(RegistrationDto dto) throws IllegalArgumentException {
-        if (!PasswordValidator.isValid(dto.password())) {
+        if (!passwordValidator.isValid(dto.password())) {
             throw new IllegalArgumentException("Password is too weak");
         }
-        if (!UsernameValidator.isValid(dto.username())) {
+        if (!usernameValidator.isValid(dto.username())) {
             throw new IllegalArgumentException("Invalid username");
         }
         User user = converter.toEntity(dto);

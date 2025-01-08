@@ -10,9 +10,19 @@ import java.util.*;
 
 @Service
 public class PasswordValidator {
-    private static final Set<String> POPULAR_PASSWORDS = new HashSet<>();
+    public final Set<String> POPULAR_PASSWORDS = new HashSet<>();
 
-    private static double entropy(String password) {
+    @PostConstruct
+    public void init() {
+        try {
+            List<String> lines = Files.readAllLines(Paths.get("src/main/resources/static/1000-passwords.txt"));
+            POPULAR_PASSWORDS.addAll(lines);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load popular passwords", e);
+        }
+    }
+
+    private double entropy(String password) {
         // Frequency
         Map<Character, Integer> frequencyMap = new HashMap<>();
         for (char c : password.toCharArray()) {
@@ -31,7 +41,7 @@ public class PasswordValidator {
 
     }
 
-    public static boolean isValid(String password) {
+    public boolean isValid(String password) {
         if (password == null || password.length() < 8) {
             return false;
         }
@@ -52,15 +62,5 @@ public class PasswordValidator {
         }
         return hasUppercase && hasLowercase && hasDigit && hasSpecialChar
                 && !POPULAR_PASSWORDS.contains(password) && (entropy(password) > 2.5);
-    }
-
-    @PostConstruct
-    public void init() {
-        try {
-            List<String> lines = Files.readAllLines(Paths.get("src/main/resources/static/1000-passwords.txt"));
-            POPULAR_PASSWORDS.addAll(lines);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to load popular passwords", e);
-        }
     }
 }
