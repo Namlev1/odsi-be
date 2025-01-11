@@ -19,21 +19,10 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
     private final UserRepository userRepository;
 
-    // TODO change to Argon2
     @Bean
     PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(10); // 100 key stretch
     }
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        int saltLength = 16; // salt length in bytes
-//        int hashLength = 32; // hash length in bytes
-//        int parallelism = 1; // currently not supported by Spring Security
-//        int memoryCost = 1 << 14; // memory costs (16 MB)
-//        int iterations = 5; // number of iterations
-//
-//        return new Argon2PasswordEncoder(saltLength, hashLength, parallelism, memoryCost, iterations);
-//    }
 
     @Bean
     public UserDetailsService userDetailsService() {

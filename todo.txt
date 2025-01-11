@@ -2,7 +2,6 @@ salt, pepper, argon2
 roles, authorization
 connect post with users
 time delay
-rozciąganie haseł
 sql inject
 logging
 cors
