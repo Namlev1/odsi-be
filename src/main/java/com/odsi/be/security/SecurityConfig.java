@@ -21,7 +21,7 @@ public class SecurityConfig {
 
     @Bean
     PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(10); // 100 key stretch
+        return new BCryptPasswordEncoder(10); // 10 key stretch
     }
 
     @Bean

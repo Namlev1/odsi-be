@@ -24,6 +24,9 @@ public class RegistrationService {
         if (!usernameValidator.isValid(dto.username())) {
             throw new IllegalArgumentException("Invalid username");
         }
+        if (repository.existsByName(dto.username())) {
+            throw new IllegalArgumentException("User with this name already exists");
+        }
         User user = converter.toEntity(dto);
         repository.save(user);
     }
