@@ -1,6 +1,5 @@
 salt, pepper, argon2
 roles, authorization
-connect post with users
 time delay
 sql inject
 logging

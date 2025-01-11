@@ -34,12 +34,18 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getPostById(@PathVariable Long id) {
+        // TODO add RBAC
         try {
             PostDto postDto = postService.get(id);
             return ResponseEntity.ok(postDto);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(404).body(e.getMessage());
         }
+    }
+
+    @GetMapping("/me")
+    private List<PostDto> getMyPosts(@AuthenticationPrincipal User user) {
+        return postService.getAllPosts(user);
     }
 }
     

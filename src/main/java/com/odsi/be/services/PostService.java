@@ -36,6 +36,12 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
+    public List<PostDto> getAllPosts(User user) {
+        return repository.findAllByUser(user).stream()
+                .map(converter::toDto)
+                .collect(Collectors.toList());
+    }
+
     public PostDto get(Long id) {
         Post post = repository.findById(id).orElseThrow();
         return converter.toDto(post);
