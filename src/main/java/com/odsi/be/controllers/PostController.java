@@ -34,7 +34,6 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getPostById(@PathVariable Long id) {
-        // TODO add RBAC
         try {
             PostDto postDto = postService.get(id);
             return ResponseEntity.ok(postDto);
