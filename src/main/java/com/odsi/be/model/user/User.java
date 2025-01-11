@@ -1,5 +1,6 @@
 package com.odsi.be.model.user;
 
+import com.odsi.be.model.post.Post;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "_user")
@@ -25,6 +27,10 @@ public class User implements UserDetails {
     private Long id;
     private String name;
     private String password;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private Set<Post> posts;
 
     @Override
     public final boolean equals(Object o) {

@@ -4,7 +4,10 @@ import com.odsi.be.model.post.Post;
 import com.odsi.be.model.post.PostConverter;
 import com.odsi.be.model.post.PostDto;
 import com.odsi.be.model.post.PostRepository;
+import com.odsi.be.model.user.User;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.StaleObjectStateException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +19,15 @@ public class PostService {
     private final PostRepository repository;
     private final PostConverter converter;
 
-    public PostDto save(PostDto dto) {
-        Post post = converter.toEntity(dto);
-        Post savedPost = repository.save(post);
-        return converter.toDto(savedPost);
+    @Transactional
+    public PostDto save(User user, PostDto dto) {
+        Post post = converter.toEntity(dto, user);
+        try {
+            Post savedPost = repository.save(post);
+            return converter.toDto(savedPost);
+        } catch (StaleObjectStateException e) {
+            throw new RuntimeException("Invalid post id");
+        }
     }
 
     public List<PostDto> getAllPosts() {

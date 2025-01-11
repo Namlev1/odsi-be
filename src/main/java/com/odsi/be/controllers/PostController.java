@@ -1,9 +1,11 @@
 package com.odsi.be.controllers;
 
 import com.odsi.be.model.post.PostDto;
+import com.odsi.be.model.user.User;
 import com.odsi.be.services.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +18,12 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public PostDto createPost(PostDto dto) {
-        return postService.save(dto);
+    public ResponseEntity<?> createPost(@AuthenticationPrincipal User user, PostDto dto) {
+        try {
+            return ResponseEntity.ok().body(postService.save(user, dto));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
     }
 
     @GetMapping

@@ -1,5 +1,6 @@
 package com.odsi.be.model.post;
 
+import com.odsi.be.model.user.User;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,7 +11,7 @@ class PostConverterTest {
     @Test
     void convertPostWithEmptyTitleToDto() {
         // Arrange
-        Post post = new Post(1L, "", "Content");
+        Post post = new Post(1L, "", "Content", null);
         PostConverter converter = new PostConverter();
 
         // Act
@@ -26,7 +27,7 @@ class PostConverterTest {
     @Test
     void convertPostWithEmptyContentToDto() {
         // Arrange
-        Post post = new Post(1L, "Title", "");
+        Post post = new Post(1L, "Title", "", null);
         PostConverter converter = new PostConverter();
 
         // Act
@@ -42,7 +43,7 @@ class PostConverterTest {
     @Test
     void convertDtoWithEmptyTitleToPost() {
         // Arrange
-        PostDto dto = new PostDto(1L, "", "Content");
+        PostDto dto = new PostDto(1L, "", "Content", null);
         PostConverter converter = new PostConverter();
 
         // Act
@@ -58,7 +59,7 @@ class PostConverterTest {
     @Test
     void convertDtoWithEmptyContentToPost() {
         // Arrange
-        PostDto dto = new PostDto(1L, "Title", "");
+        PostDto dto = new PostDto(1L, "Title", "", null);
         PostConverter converter = new PostConverter();
 
         // Act
@@ -69,5 +70,23 @@ class PostConverterTest {
         assertEquals(1, post.getId());
         assertEquals("Title", post.getTitle());
         assertEquals("", post.getContent());
+    }
+
+    @Test
+    void convertPostWithUser() {
+        // Arrange
+        User user = new User(2L, "username", "password", null);
+        Post post = new Post(1L, "Title", "Content", user);
+        PostConverter converter = new PostConverter();
+
+        // Act
+        PostDto dto = converter.toDto(post);
+
+        // Assert
+        assertNotNull(dto);
+        assertEquals(1, dto.id());
+        assertEquals("Title", dto.title());
+        assertEquals("Content", dto.content());
+        assertEquals(2, dto.userId());
     }
 }

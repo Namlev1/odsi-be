@@ -1,9 +1,7 @@
 package com.odsi.be.model.post;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.odsi.be.model.user.User;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
@@ -23,10 +21,9 @@ public class Post {
     private String title;
     private String content;
 
-//    @ManyToOne(optional = false)
-//    @JoinColumn(name = "user_id", nullable = false)
-//    @ToString.Exclude
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Override
     public final boolean equals(Object o) {
