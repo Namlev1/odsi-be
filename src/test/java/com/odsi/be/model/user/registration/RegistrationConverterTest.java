@@ -1,5 +1,7 @@
 package com.odsi.be.model.user.registration;
 
+import com.odsi.be.model.registration.RegistrationConverter;
+import com.odsi.be.model.registration.RegistrationDto;
 import com.odsi.be.model.user.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

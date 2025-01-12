@@ -42,9 +42,17 @@ public class PostController {
         }
     }
 
+//    @GetMapping("/me")
+//    private List<PostDto> getMyPosts(@AuthenticationPrincipal User user) {
+//        return postService.getAllPosts(user);
+//    }
+    
     @GetMapping("/me")
-    private List<PostDto> getMyPosts(@AuthenticationPrincipal User user) {
-        return postService.getAllPosts(user);
+    public List<PostDto> get() {
+        return List.of(
+                new PostDto(1L, "title1", "content", 1L),
+                new PostDto(2L, "title2", "content", 2L)
+        );
     }
 }
     

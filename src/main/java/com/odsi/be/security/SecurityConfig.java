@@ -1,16 +1,13 @@
 package com.odsi.be.security;
 
-import com.odsi.be.model.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -19,19 +16,35 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableWebSecurity
 public class SecurityConfig {
-    private final UserRepository userRepository;
+    private final UserAuthenticationEntryPoint userAuthenticationEntryPoint;
+    private final UserAuthProvider userAuthProvider;
 
     @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(10); // 10 key stretch
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .cors(withDefaults())
+                .exceptionHandling(exceptionHandling -> {
+                    exceptionHandling.authenticationEntryPoint(userAuthenticationEntryPoint);
+                })
+                .addFilterBefore(new JwtAuthFilter(userAuthProvider), BasicAuthenticationFilter.class)
+                .csrf(csrf -> {
+                    // TODO
+                    csrf.disable();
+                })
+                .sessionManagement(sessionManagement -> {
+                    sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                })
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/api/registration").permitAll()
+                        .anyRequest().authenticated()
+                );
+        return http.build();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return username -> userRepository.findByName(username).orElseThrow(() -> new UsernameNotFoundException("User '" + username + "' not found."));
-    }
-
+    // TODO harden
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -43,19 +56,5 @@ public class SecurityConfig {
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
-    }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .cors(withDefaults()) // Enable CORS
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/registration").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .formLogin(withDefaults())
-                .httpBasic(withDefaults())
-                .csrf(AbstractHttpConfigurer::disable);
-        return http.build();
     }
 }

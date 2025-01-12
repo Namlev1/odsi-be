@@ -1,5 +1,8 @@
 package com.odsi.be.model.user.registration;
 
+import com.odsi.be.model.registration.RegistrationConverter;
+import com.odsi.be.model.registration.RegistrationDto;
+import com.odsi.be.model.registration.RegistrationService;
 import com.odsi.be.model.user.User;
 import com.odsi.be.model.user.UserRepository;
 import com.odsi.be.security.PasswordValidator;

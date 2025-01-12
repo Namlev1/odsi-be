@@ -1,7 +1,7 @@
 package com.odsi.be.controllers;
 
-import com.odsi.be.model.user.registration.RegistrationDto;
-import com.odsi.be.model.user.registration.RegistrationService;
+import com.odsi.be.model.registration.RegistrationDto;
+import com.odsi.be.model.registration.RegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

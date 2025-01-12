@@ -1,4 +1,4 @@
-package com.odsi.be.model.user.registration;
+package com.odsi.be.model.registration;
 
 import com.odsi.be.model.user.User;
 import com.odsi.be.model.user.UserRepository;
