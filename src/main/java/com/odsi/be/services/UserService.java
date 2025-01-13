@@ -19,10 +19,10 @@ public class UserService {
     private final UserConverter userConverter;
     private final PasswordEncoder passwordEncoder;
 
-    public UserDto findByName(String name) {
+    public User findByName(String name) {
         User user = userRepository.findByName(name)
                 .orElseThrow();
-        return userConverter.toDto(user);
+        return user;
     }
 
     public UserDto login(CredentialsDto credentialsDto) {

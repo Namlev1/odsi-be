@@ -4,7 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.odsi.be.model.user.UserDto;
+import com.odsi.be.model.user.User;
 import com.odsi.be.security.jwt.TokenBlacklistService;
 import com.odsi.be.services.UserService;
 import jakarta.annotation.PostConstruct;
@@ -52,7 +52,7 @@ public class UserAuthProvider {
 
         DecodedJWT decoded = verifier.verify(token);
 
-        UserDto user = userService.findByName(decoded.getIssuer());
+        User user = userService.findByName(decoded.getIssuer());
 
         return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
     }
