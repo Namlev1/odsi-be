@@ -42,7 +42,7 @@ public class PasswordValidator {
     }
 
     public boolean isValid(String password) {
-        if (password == null || password.length() < 8) {
+        if (password == null || password.length() < 8 || password.length() > 32) {
             return false;
         }
         boolean hasUppercase = false;

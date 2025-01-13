@@ -19,7 +19,7 @@ public class CredentialsService {
     // and password is encoded anyway.
     public void register(CredentialsDto dto) throws IllegalArgumentException {
         if (!passwordValidator.isValid(dto.password())) {
-            throw new IllegalArgumentException("Password is too weak");
+            throw new IllegalArgumentException("Invalid password");
         }
         if (!usernameValidator.isValid(dto.username())) {
             throw new IllegalArgumentException("Invalid username");
