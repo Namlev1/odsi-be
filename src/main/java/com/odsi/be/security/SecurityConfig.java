@@ -1,5 +1,8 @@
 package com.odsi.be.security;
 
+import com.odsi.be.security.auth.UserAuthProvider;
+import com.odsi.be.security.auth.UserAuthenticationEntryPoint;
+import com.odsi.be.security.jwt.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,6 +41,8 @@ public class SecurityConfig {
                 })
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/login").permitAll()
+                        .requestMatchers("/logou").permitAll()
+                        .requestMatchers("/aa").permitAll()
                         .requestMatchers("/api/registration").permitAll()
                         .anyRequest().authenticated()
                 );

@@ -1,5 +1,6 @@
-package com.odsi.be.security;
+package com.odsi.be.security.jwt;
 
+import com.odsi.be.security.auth.UserAuthProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -42,6 +42,8 @@ public class PostController {
         }
     }
 
+    // todo
+
 //    @GetMapping("/me")
 //    private List<PostDto> getMyPosts(@AuthenticationPrincipal User user) {
 //        return postService.getAllPosts(user);

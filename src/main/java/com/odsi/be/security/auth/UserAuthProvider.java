@@ -1,10 +1,11 @@
-package com.odsi.be.security;
+package com.odsi.be.security.auth;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.odsi.be.model.user.UserDto;
+import com.odsi.be.security.jwt.TokenBlacklistService;
 import com.odsi.be.services.UserService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +22,8 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Component
 public class UserAuthProvider {
-
     private final UserService userService;
+    private final TokenBlacklistService tokenBlacklistService;
     @Value("${security.jwt.token.secret-key:secret-value}")
     private String secretKey;
 
@@ -43,6 +44,9 @@ public class UserAuthProvider {
     }
 
     public Authentication validateToken(String token) {
+        if (tokenBlacklistService.isTokenBlacklisted(token)) {
+            throw new RuntimeException("Token is invalid");
+        }
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secretKey))
                 .build();
 
