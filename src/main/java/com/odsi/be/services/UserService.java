@@ -1,6 +1,6 @@
 package com.odsi.be.services;
 
-import com.odsi.be.model.registration.CredentialsDto;
+import com.odsi.be.model.credentials.CredentialsDto;
 import com.odsi.be.model.user.User;
 import com.odsi.be.model.user.UserConverter;
 import com.odsi.be.model.user.UserDto;

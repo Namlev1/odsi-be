@@ -1,8 +1,8 @@
 package com.odsi.be.model.user.registration;
 
-import com.odsi.be.model.registration.RegistrationConverter;
-import com.odsi.be.model.registration.RegistrationDto;
-import com.odsi.be.model.registration.RegistrationService;
+import com.odsi.be.model.credentials.CredentialsConverter;
+import com.odsi.be.model.credentials.CredentialsDto;
+import com.odsi.be.model.credentials.CredentialsService;
 import com.odsi.be.model.user.User;
 import com.odsi.be.model.user.UserRepository;
 import com.odsi.be.security.PasswordValidator;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 class RegistrationServiceTest {
 
     @Mock
-    private RegistrationConverter converter;
+    private CredentialsConverter converter;
     @Mock
     private UserRepository repository;
     @Mock
@@ -29,7 +29,7 @@ class RegistrationServiceTest {
     private UsernameValidator usernameValidator;
 
     @InjectMocks
-    private RegistrationService registrationService;
+    private CredentialsService registrationService;
 
     @BeforeEach
     void setUp() {
@@ -38,7 +38,7 @@ class RegistrationServiceTest {
 
     @Test
     void testRegisterValidUser() {
-        RegistrationDto dto = new RegistrationDto("ValidUser123", "Valid1!Password");
+        CredentialsDto dto = new CredentialsDto("ValidUser123", "Valid1!Password");
         User user = new User();
 
         when(converter.toEntity(dto)).thenReturn(user);
@@ -52,7 +52,7 @@ class RegistrationServiceTest {
 
     @Test
     void testRegisterInvalidPassword() {
-        RegistrationDto dto = new RegistrationDto("ValidUser123", "weakpass");
+        CredentialsDto dto = new CredentialsDto("ValidUser123", "weakpass");
 
         when(passwordValidator.isValid(dto.password())).thenReturn(false);
 
@@ -64,7 +64,7 @@ class RegistrationServiceTest {
 
     @Test
     void testRegisterInvalidUsername() {
-        RegistrationDto dto = new RegistrationDto("Invalid@User", "Valid1!Password");
+        CredentialsDto dto = new CredentialsDto("Invalid@User", "Valid1!Password");
 
         when(passwordValidator.isValid(dto.password())).thenReturn(true);
         when(usernameValidator.isValid(dto.username())).thenReturn(false);

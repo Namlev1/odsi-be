@@ -1,7 +1,7 @@
 package com.odsi.be.model.user.registration;
 
-import com.odsi.be.model.registration.RegistrationConverter;
-import com.odsi.be.model.registration.RegistrationDto;
+import com.odsi.be.model.credentials.CredentialsConverter;
+import com.odsi.be.model.credentials.CredentialsDto;
 import com.odsi.be.model.user.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,18 +14,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class RegistrationConverterTest {
+class CredentialsConverterTest {
 
     @Mock
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private RegistrationConverter registrationConverter;
+    private CredentialsConverter credentialsConverter;
 
     @Test
     void testConvertToEntity() {
         // Arrange
-        RegistrationDto dto = new RegistrationDto("testUser", "testPassword");
+        CredentialsDto dto = new CredentialsDto("testUser", "testPassword");
         String encodedPassword = "encodedPassword";
         when(passwordEncoder.encode(dto.password())).thenReturn(encodedPassword);
 
@@ -35,7 +35,7 @@ class RegistrationConverterTest {
                 .build();
 
         // Act
-        User actualUser = registrationConverter.toEntity(dto);
+        User actualUser = credentialsConverter.toEntity(dto);
 
         // Assert
         assertEquals(expectedUser.getName(), actualUser.getName());
@@ -45,7 +45,7 @@ class RegistrationConverterTest {
     @Test
     void testConvertToEntityWithEmptyPassword() {
         // Arrange
-        RegistrationDto dto = new RegistrationDto("testUser", "");
+        CredentialsDto dto = new CredentialsDto("testUser", "");
         String encodedPassword = "";
         when(passwordEncoder.encode(dto.password())).thenReturn(encodedPassword);
 
@@ -55,7 +55,7 @@ class RegistrationConverterTest {
                 .build();
 
         // Act
-        User actualUser = registrationConverter.toEntity(dto);
+        User actualUser = credentialsConverter.toEntity(dto);
 
         // Assert
         assertEquals(expectedUser.getName(), actualUser.getName());
@@ -65,7 +65,7 @@ class RegistrationConverterTest {
     @Test
     void testConvertToEntityWithNullPassword() {
         // Arrange
-        RegistrationDto dto = new RegistrationDto("testUser", null);
+        CredentialsDto dto = new CredentialsDto("testUser", null);
         String encodedPassword = null;
         when(passwordEncoder.encode(dto.password())).thenReturn(encodedPassword);
 
@@ -75,7 +75,7 @@ class RegistrationConverterTest {
                 .build();
 
         // Act
-        User actualUser = registrationConverter.toEntity(dto);
+        User actualUser = credentialsConverter.toEntity(dto);
 
         // Assert
         assertEquals(expectedUser.getName(), actualUser.getName());
@@ -85,7 +85,7 @@ class RegistrationConverterTest {
     @Test
     void testConvertToEntityWithSpecialCharacters() {
         // Arrange
-        RegistrationDto dto = new RegistrationDto("testUser", "p@ssw0rd!");
+        CredentialsDto dto = new CredentialsDto("testUser", "p@ssw0rd!");
         String encodedPassword = "encodedSpecialPassword";
         when(passwordEncoder.encode(dto.password())).thenReturn(encodedPassword);
 
@@ -95,7 +95,7 @@ class RegistrationConverterTest {
                 .build();
 
         // Act
-        User actualUser = registrationConverter.toEntity(dto);
+        User actualUser = credentialsConverter.toEntity(dto);
 
         // Assert
         assertEquals(expectedUser.getName(), actualUser.getName());
@@ -106,7 +106,7 @@ class RegistrationConverterTest {
     void testConvertToEntityWithLongPassword() {
         // Arrange
         String longPassword = "a".repeat(100);
-        RegistrationDto dto = new RegistrationDto("testUser", longPassword);
+        CredentialsDto dto = new CredentialsDto("testUser", longPassword);
         String encodedPassword = "encodedLongPassword";
         when(passwordEncoder.encode(dto.password())).thenReturn(encodedPassword);
 
@@ -116,7 +116,7 @@ class RegistrationConverterTest {
                 .build();
 
         // Act
-        User actualUser = registrationConverter.toEntity(dto);
+        User actualUser = credentialsConverter.toEntity(dto);
 
         // Assert
         assertEquals(expectedUser.getName(), actualUser.getName());

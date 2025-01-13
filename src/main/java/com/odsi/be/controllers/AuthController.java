@@ -1,6 +1,6 @@
 package com.odsi.be.controllers;
 
-import com.odsi.be.model.registration.CredentialsDto;
+import com.odsi.be.model.credentials.CredentialsDto;
 import com.odsi.be.model.user.UserDto;
 import com.odsi.be.security.UserAuthProvider;
 import com.odsi.be.services.UserService;

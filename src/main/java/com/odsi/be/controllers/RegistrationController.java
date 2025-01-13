@@ -1,7 +1,7 @@
 package com.odsi.be.controllers;
 
-import com.odsi.be.model.registration.RegistrationDto;
-import com.odsi.be.model.registration.RegistrationService;
+import com.odsi.be.model.credentials.CredentialsDto;
+import com.odsi.be.model.credentials.CredentialsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/registration")
 @RequiredArgsConstructor
 public class RegistrationController {
-    private final RegistrationService service;
+    private final CredentialsService service;
 
     @PostMapping
-    public ResponseEntity<?> register(RegistrationDto dto) {
+    public ResponseEntity<?> register(CredentialsDto dto) {
         try {
             service.register(dto);
             return ResponseEntity.ok().build();

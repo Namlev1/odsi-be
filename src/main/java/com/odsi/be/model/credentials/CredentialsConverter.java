@@ -1,4 +1,4 @@
-package com.odsi.be.model.registration;
+package com.odsi.be.model.credentials;
 
 import com.odsi.be.model.user.User;
 import lombok.RequiredArgsConstructor;
@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class RegistrationConverter {
+public class CredentialsConverter {
     private final PasswordEncoder passwordEncoder;
 
-    public User toEntity(RegistrationDto dto) {
+    public User toEntity(CredentialsDto dto) {
         return User.builder()
                 .name(dto.username())
                 .password(passwordEncoder.encode(dto.password()))

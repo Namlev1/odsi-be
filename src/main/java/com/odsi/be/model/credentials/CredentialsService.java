@@ -1,4 +1,4 @@
-package com.odsi.be.model.registration;
+package com.odsi.be.model.credentials;
 
 import com.odsi.be.model.user.User;
 import com.odsi.be.model.user.UserRepository;
@@ -9,15 +9,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class RegistrationService {
-    private final RegistrationConverter converter;
+public class CredentialsService {
+    private final CredentialsConverter converter;
     private final UserRepository repository;
     private final PasswordValidator passwordValidator;
     private final UsernameValidator usernameValidator;
 
     // No sql injection, because "username" doesn't allow '()',
     // and password is encoded anyway.
-    public void register(RegistrationDto dto) throws IllegalArgumentException {
+    public void register(CredentialsDto dto) throws IllegalArgumentException {
         if (!passwordValidator.isValid(dto.password())) {
             throw new IllegalArgumentException("Password is too weak");
         }
