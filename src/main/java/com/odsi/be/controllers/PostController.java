@@ -26,7 +26,7 @@ public class PostController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<PostDto> getAllPosts() {
         return postService.getAllPosts();
     }

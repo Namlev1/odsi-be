@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class PostConverter {
     public PostDto toDto(Post post) {
-        Long userId = post.getUser() != null ? post.getUser().getId() : null;
-        return new PostDto(post.getId(), post.getTitle(), post.getContent(), userId);
+        String username = post.getUser() != null ? post.getUser().getName() : null;
+        return new PostDto(post.getId(), post.getTitle(), post.getContent(), username);
     }
 
     public Post toEntity(PostDto postDto) {

@@ -87,6 +87,6 @@ class PostConverterTest {
         assertEquals(1, dto.id());
         assertEquals("Title", dto.title());
         assertEquals("Content", dto.content());
-        assertEquals(2, dto.userId());
+        assertEquals("username", dto.username());
     }
 }

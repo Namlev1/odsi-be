@@ -58,7 +58,7 @@ class RegistrationServiceTest {
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> registrationService.register(dto));
 
-        assertEquals("Password is too weak", exception.getMessage());
+        assertEquals("Invalid password", exception.getMessage());
         verify(repository, never()).save(any(User.class));
     }
 
