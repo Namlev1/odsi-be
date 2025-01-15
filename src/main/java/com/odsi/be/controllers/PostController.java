@@ -18,7 +18,7 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<?> createPost(@AuthenticationPrincipal User user, PostDto dto) {
+    public ResponseEntity<?> createPost(@AuthenticationPrincipal User user, @RequestBody PostDto dto) {
         try {
             return ResponseEntity.ok().body(postService.save(user, dto));
         } catch (RuntimeException e) {

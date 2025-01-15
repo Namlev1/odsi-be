@@ -1,4 +1,4 @@
-package com.odsi.be.security;
+package com.odsi.be.model.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

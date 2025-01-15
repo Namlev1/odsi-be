@@ -5,6 +5,7 @@ import com.odsi.be.model.post.PostConverter;
 import com.odsi.be.model.post.PostDto;
 import com.odsi.be.model.post.PostRepository;
 import com.odsi.be.model.user.User;
+import com.odsi.be.security.validation.PostValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.StaleObjectStateException;
@@ -18,9 +19,13 @@ import java.util.stream.Collectors;
 public class PostService {
     private final PostRepository repository;
     private final PostConverter converter;
+    private final PostValidator validator;
 
     @Transactional
     public PostDto save(User user, PostDto dto) {
+        if (!validator.isValid(dto)) {
+            throw new IllegalArgumentException("Post is not valid");
+        }
         Post post = converter.toEntity(dto, user);
         try {
             Post savedPost = repository.save(post);

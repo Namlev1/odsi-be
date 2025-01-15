@@ -1,4 +1,4 @@
-package com.odsi.be.security;
+package com.odsi.be.security.validation;
 
 import org.springframework.stereotype.Service;
 

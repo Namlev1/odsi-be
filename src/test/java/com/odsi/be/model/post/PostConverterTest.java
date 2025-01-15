@@ -1,18 +1,30 @@
 package com.odsi.be.model.post;
 
 import com.odsi.be.model.user.User;
+import com.odsi.be.security.validation.HtmlParser;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class PostConverterTest {
+
+    @Mock
+    private HtmlParser htmlParser;
+
+    @InjectMocks
+    private PostConverter converter;
 
     @Test
     void convertPostWithEmptyTitleToDto() {
         // Arrange
         Post post = new Post(1L, "", "Content", null);
-        PostConverter converter = new PostConverter();
 
         // Act
         PostDto dto = converter.toDto(post);
@@ -28,7 +40,6 @@ class PostConverterTest {
     void convertPostWithEmptyContentToDto() {
         // Arrange
         Post post = new Post(1L, "Title", "", null);
-        PostConverter converter = new PostConverter();
 
         // Act
         PostDto dto = converter.toDto(post);
@@ -44,7 +55,7 @@ class PostConverterTest {
     void convertDtoWithEmptyTitleToPost() {
         // Arrange
         PostDto dto = new PostDto(1L, "", "Content", null);
-        PostConverter converter = new PostConverter();
+        when(htmlParser.sanitizeContent("Content")).thenReturn("Content");
 
         // Act
         Post post = converter.toEntity(dto);
@@ -60,7 +71,7 @@ class PostConverterTest {
     void convertDtoWithEmptyContentToPost() {
         // Arrange
         PostDto dto = new PostDto(1L, "Title", "", null);
-        PostConverter converter = new PostConverter();
+        when(htmlParser.sanitizeContent("")).thenReturn("");
 
         // Act
         Post post = converter.toEntity(dto);
@@ -77,7 +88,6 @@ class PostConverterTest {
         // Arrange
         User user = new User(2L, "username", "password", null);
         Post post = new Post(1L, "Title", "Content", user);
-        PostConverter converter = new PostConverter();
 
         // Act
         PostDto dto = converter.toDto(post);

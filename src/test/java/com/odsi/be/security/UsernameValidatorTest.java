@@ -1,5 +1,6 @@
 package com.odsi.be.security;
 
+import com.odsi.be.security.validation.UsernameValidator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

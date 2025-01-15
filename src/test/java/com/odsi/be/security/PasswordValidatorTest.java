@@ -1,5 +1,6 @@
 package com.odsi.be.security;
 
+import com.odsi.be.security.validation.PasswordValidator;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;

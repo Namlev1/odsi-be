@@ -2,8 +2,8 @@ package com.odsi.be.model.credentials;
 
 import com.odsi.be.model.user.User;
 import com.odsi.be.model.user.UserRepository;
-import com.odsi.be.security.PasswordValidator;
-import com.odsi.be.security.UsernameValidator;
+import com.odsi.be.security.validation.PasswordValidator;
+import com.odsi.be.security.validation.UsernameValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

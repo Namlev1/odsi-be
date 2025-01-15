@@ -1,7 +1,7 @@
 package com.odsi.be.security.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.odsi.be.security.ErrorDto;
+import com.odsi.be.model.error.ErrorDto;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,6 +1,8 @@
 salt, pepper, argon2
-roles, authorization
-time delay
-sql inject
+time delay podczas logowania
+nieudana ilość prób logowania
 logging
-cors
+2FA
+zmiana hasła
+dużo więcej walidacji danych z negatywnym nastawieniem
+użytkownik musi mieć swój mail XD
