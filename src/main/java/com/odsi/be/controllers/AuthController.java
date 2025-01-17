@@ -2,10 +2,11 @@ package com.odsi.be.controllers;
 
 import com.odsi.be.model.credentials.CredentialsDto;
 import com.odsi.be.model.user.UserDto;
-import com.odsi.be.security.auth.UserAuthProvider;
 import com.odsi.be.security.jwt.TokenBlacklistService;
+import com.odsi.be.services.LoginService;
 import com.odsi.be.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,16 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AuthController {
     private final UserService userService;
-    private final UserAuthProvider userAuthProvider;
     private final TokenBlacklistService tokenBlacklistService;
+    private final LoginService loginService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody CredentialsDto credentialsDto) {
-        // todo exception handling
-        UserDto user = userService.login(credentialsDto);
-
-        user.setToken(userAuthProvider.createToken(user.getName()));
-        return ResponseEntity.ok(user);
+        try {
+            UserDto user = loginService.login(credentialsDto);
+            return ResponseEntity.ok(user);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PostMapping("auth/logout")
