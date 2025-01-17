@@ -2,6 +2,7 @@ package com.odsi.be.controllers;
 
 import com.odsi.be.model.credentials.CredentialsDto;
 import com.odsi.be.model.credentials.CredentialsService;
+import com.odsi.be.model.credentials.RegisterResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +20,8 @@ public class RegistrationController {
     @PostMapping
     public ResponseEntity<?> register(@RequestBody CredentialsDto dto) {
         try {
-            service.register(dto);
-            return ResponseEntity.ok().build();
+            RegisterResponseDto response = service.register(dto);
+            return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

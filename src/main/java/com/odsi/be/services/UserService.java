@@ -14,24 +14,25 @@ import java.nio.CharBuffer;
 @RequiredArgsConstructor
 @Service
 public class UserService {
-
     private final UserRepository userRepository;
     private final UserConverter userConverter;
     private final PasswordEncoder passwordEncoder;
+    private final TwoFactorAuthenticationService tfaService;
 
     public User findByName(String name) {
-        User user = userRepository.findByName(name)
+        return userRepository.findByName(name)
                 .orElseThrow();
-        return user;
     }
 
     public UserDto login(CredentialsDto credentialsDto) {
         User user = userRepository.findByName(credentialsDto.username())
                 .orElseThrow();
-        if (passwordEncoder.matches(CharBuffer.wrap(credentialsDto.password()), user.getPassword())) {
-            return userConverter.toDto(user);
+        if (!passwordEncoder.matches(CharBuffer.wrap(credentialsDto.password()), user.getPassword())) {
+            throw new RuntimeException("Invalid password");
         }
-
-        throw new RuntimeException("Invalid password");
+        if (tfaService.isOtpNotValid(user.getSecret(), credentialsDto.tfaCode())) {
+            throw new RuntimeException("Invalid code");
+        }
+        return userConverter.toDto(user);
     }
 }

@@ -35,8 +35,5 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/aa")
-    public String aa() {
-        return "aa";
-    }
+    // TODO token refresh
 }
