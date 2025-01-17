@@ -20,6 +20,8 @@ public class Post {
     private Long id;
     private String title;
     private String content;
+    @Column(length = 512)
+    private String signature;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

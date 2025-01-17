@@ -12,7 +12,7 @@ public class PostConverter {
 
     public PostDto toDto(Post post) {
         String username = post.getUser() != null ? post.getUser().getName() : null;
-        return new PostDto(post.getId(), post.getTitle(), post.getContent(), username);
+        return new PostDto(post.getId(), post.getTitle(), post.getContent(), username, post.getSignature());
     }
 
     public Post toEntity(PostDto postDto) {
@@ -20,6 +20,7 @@ public class PostConverter {
                 .id(postDto.id())
                 .title(postDto.title())
                 .content(htmlParser.sanitizeContent(postDto.content()))
+                .signature(postDto.signature())
                 .build();
     }
 
@@ -29,6 +30,7 @@ public class PostConverter {
                 .title(postDto.title())
                 .content(htmlParser.sanitizeContent(postDto.content()))
                 .user(user)
+                .signature(postDto.signature())
                 .build();
     }
 
