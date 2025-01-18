@@ -25,7 +25,7 @@ class CredentialsConverterTest {
     @Test
     void testConvertToEntity() {
         // Arrange
-        CredentialsDto dto = new CredentialsDto("testUser", "testPassword");
+        CredentialsDto dto = new CredentialsDto("testUser", "testPassword", "");
         String encodedPassword = "encodedPassword";
         when(passwordEncoder.encode(dto.password())).thenReturn(encodedPassword);
 
@@ -45,7 +45,7 @@ class CredentialsConverterTest {
     @Test
     void testConvertToEntityWithEmptyPassword() {
         // Arrange
-        CredentialsDto dto = new CredentialsDto("testUser", "");
+        CredentialsDto dto = new CredentialsDto("testUser", "", "");
         String encodedPassword = "";
         when(passwordEncoder.encode(dto.password())).thenReturn(encodedPassword);
 
@@ -65,7 +65,7 @@ class CredentialsConverterTest {
     @Test
     void testConvertToEntityWithNullPassword() {
         // Arrange
-        CredentialsDto dto = new CredentialsDto("testUser", null);
+        CredentialsDto dto = new CredentialsDto("testUser", null, "");
         String encodedPassword = null;
         when(passwordEncoder.encode(dto.password())).thenReturn(encodedPassword);
 
@@ -85,7 +85,7 @@ class CredentialsConverterTest {
     @Test
     void testConvertToEntityWithSpecialCharacters() {
         // Arrange
-        CredentialsDto dto = new CredentialsDto("testUser", "p@ssw0rd!");
+        CredentialsDto dto = new CredentialsDto("testUser", "p@ssw0rd!", "");
         String encodedPassword = "encodedSpecialPassword";
         when(passwordEncoder.encode(dto.password())).thenReturn(encodedPassword);
 
@@ -106,7 +106,7 @@ class CredentialsConverterTest {
     void testConvertToEntityWithLongPassword() {
         // Arrange
         String longPassword = "a".repeat(100);
-        CredentialsDto dto = new CredentialsDto("testUser", longPassword);
+        CredentialsDto dto = new CredentialsDto("testUser", longPassword, "");
         String encodedPassword = "encodedLongPassword";
         when(passwordEncoder.encode(dto.password())).thenReturn(encodedPassword);
 

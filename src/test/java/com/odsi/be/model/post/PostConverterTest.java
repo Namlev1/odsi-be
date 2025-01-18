@@ -24,7 +24,7 @@ class PostConverterTest {
     @Test
     void convertPostWithEmptyTitleToDto() {
         // Arrange
-        Post post = new Post(1L, "", "Content", null);
+        Post post = new Post(1L, "", "Content", null, null);
 
         // Act
         PostDto dto = converter.toDto(post);
@@ -39,7 +39,7 @@ class PostConverterTest {
     @Test
     void convertPostWithEmptyContentToDto() {
         // Arrange
-        Post post = new Post(1L, "Title", "", null);
+        Post post = new Post(1L, "Title", "", null, null);
 
         // Act
         PostDto dto = converter.toDto(post);
@@ -54,7 +54,7 @@ class PostConverterTest {
     @Test
     void convertDtoWithEmptyTitleToPost() {
         // Arrange
-        PostDto dto = new PostDto(1L, "", "Content", null);
+        PostDto dto = new PostDto(1L, "", "Content", null, null);
         when(htmlParser.sanitizeContent("Content")).thenReturn("Content");
 
         // Act
@@ -70,7 +70,7 @@ class PostConverterTest {
     @Test
     void convertDtoWithEmptyContentToPost() {
         // Arrange
-        PostDto dto = new PostDto(1L, "Title", "", null);
+        PostDto dto = new PostDto(1L, "Title", "", null, null);
         when(htmlParser.sanitizeContent("")).thenReturn("");
 
         // Act
@@ -86,8 +86,8 @@ class PostConverterTest {
     @Test
     void convertPostWithUser() {
         // Arrange
-        User user = new User(2L, "username", "password", null);
-        Post post = new Post(1L, "Title", "Content", user);
+        User user = new User(2L, "username", "password", null, null, null);
+        Post post = new Post(1L, "Title", "Content", null, user);
 
         // Act
         PostDto dto = converter.toDto(post);
