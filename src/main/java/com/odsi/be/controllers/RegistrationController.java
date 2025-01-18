@@ -1,8 +1,8 @@
 package com.odsi.be.controllers;
 
 import com.odsi.be.model.credentials.CredentialsDto;
-import com.odsi.be.model.credentials.CredentialsService;
 import com.odsi.be.model.credentials.RegisterResponseDto;
+import com.odsi.be.services.CredentialsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

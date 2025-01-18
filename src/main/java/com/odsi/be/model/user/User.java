@@ -27,6 +27,8 @@ public class User implements UserDetails {
     private String name;
     private String password;
     private String secret;
+    @Column(length = 500)
+    private String publicKey;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
