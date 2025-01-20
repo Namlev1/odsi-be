@@ -1,6 +1,8 @@
 package com.odsi.be.services;
 
 import com.odsi.be.model.user.User;
+import com.odsi.be.model.user.UserDetailsConverter;
+import com.odsi.be.model.user.UserDetailsDto;
 import com.odsi.be.model.user.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final UserDetailsConverter userDetailsConverter;
 
     public User findByName(String name) {
         return userRepository.findByName(name)
@@ -23,6 +26,10 @@ public class UserService {
 
     public User findById(Long id) {
         return userRepository.findById(id).orElseThrow();
+    }
+
+    public UserDetailsDto getUserByName(String username) {
+        return userDetailsConverter.toDto(findByName(username));
     }
 
 }

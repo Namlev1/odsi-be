@@ -6,6 +6,7 @@ import com.odsi.be.model.post.PostConverter;
 import com.odsi.be.model.post.PostDto;
 import com.odsi.be.model.post.PostRepository;
 import com.odsi.be.model.user.User;
+import com.odsi.be.model.user.UserRepository;
 import com.odsi.be.security.validation.PostValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class PostService {
     private final PostRepository repository;
     private final PostConverter converter;
     private final PostValidator validator;
+    private final UserRepository userRepository;
 
     private static void verifySignature(PublicKey publicKey, String content, byte[] signatureBytes) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
         Signature sig = Signature.getInstance("SHA256withRSA");
@@ -47,6 +49,12 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
+    public List<PostDto> getAllPosts(String username) {
+        User user = userRepository.findByName(username).orElseThrow();
+        return getAllPosts(user);
+    }
+
+
     public PostDto get(Long id) {
         Post post = repository.findById(id).orElseThrow();
         return converter.toDto(post);
@@ -62,7 +70,7 @@ public class PostService {
         if (post.getSignature() != null && !post.getSignature().isEmpty()) {
             throwIfInvalidSignature(user, post);
         }
-        
+
         try {
             Post savedPost = repository.save(post);
             return converter.toDto(savedPost);

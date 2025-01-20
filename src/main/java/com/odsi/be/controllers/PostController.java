@@ -42,6 +42,15 @@ public class PostController {
         }
     }
 
+    @GetMapping("/user/{username}")
+    public ResponseEntity<?> getPostsByUserId(@PathVariable String username) {
+        try {
+            return ResponseEntity.ok(postService.getAllPosts(username));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
+    }
+
     @GetMapping("/me")
     private List<PostDto> getMyPosts(@AuthenticationPrincipal User user) {
         return postService.getAllPosts(user);
