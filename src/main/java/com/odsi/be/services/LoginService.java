@@ -21,6 +21,11 @@ public class LoginService {
     private final UserAuthProvider userAuthProvider;
 
     public UserDto login(CredentialsDto credentialsDto) {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
         User user = userService.findByName(credentialsDto.username());
         if (!passwordEncoder.matches(CharBuffer.wrap(credentialsDto.password()), user.getPassword())) {
             throw new RuntimeException("Invalid password");
