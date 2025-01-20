@@ -55,5 +55,15 @@ public class PostController {
     private List<PostDto> getMyPosts(@AuthenticationPrincipal User user) {
         return postService.getAllPosts(user);
     }
+
+    @GetMapping("/{id}/signature")
+    public ResponseEntity<?> isSignatureCorrect(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(postService.isSignatureCorrect(id));
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
     

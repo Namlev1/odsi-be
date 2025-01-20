@@ -26,6 +26,7 @@ public class PostService {
     private final PostConverter converter;
     private final PostValidator validator;
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
 
     private static void verifySignature(PublicKey publicKey, String content, byte[] signatureBytes) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
         Signature sig = Signature.getInstance("SHA256withRSA");
@@ -107,5 +108,19 @@ public class PostService {
         } catch (Exception e) {
             throw new InvalidPostException("An error occurred while verifying the signature: " + e.getMessage());
         }
+    }
+
+    public boolean isSignatureCorrect(Long id) {
+        Post post = postRepository.findById(id).orElseThrow();
+        User user = post.getUser();
+        try {
+            throwIfInvalidSignature(user, post);
+        } catch (InvalidPostException e) {
+            if (e.getMessage().equals("An error occurred while verifying the signature: Signature verification failed")) {
+                return false;
+            }
+            throw e;
+        }
+        return true;
     }
 }
