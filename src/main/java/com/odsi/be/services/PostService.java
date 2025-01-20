@@ -59,7 +59,7 @@ public class PostService {
         }
         Post post = converter.toEntity(dto, user);
 
-        if (!post.getSignature().isEmpty()) {
+        if (post.getSignature() != null && !post.getSignature().isEmpty()) {
             throwIfInvalidSignature(user, post);
         }
         
