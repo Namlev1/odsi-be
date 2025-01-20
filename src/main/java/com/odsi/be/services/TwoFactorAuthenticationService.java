@@ -21,9 +21,9 @@ public class TwoFactorAuthenticationService {
         return new DefaultSecretGenerator().generate();
     }
 
-    public String generateQrCodeImageUri(String secret) {
+    public String generateQrCodeImageUri(String secret, String username) {
         QrData data = new QrData.Builder()
-                .label("user") // todo change to real user name
+                .label(username) // todo change to real user name
                 .secret(secret)
                 .issuer("odsi-post")
                 .algorithm(HashingAlgorithm.SHA1)

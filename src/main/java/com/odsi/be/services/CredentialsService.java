@@ -36,6 +36,6 @@ public class CredentialsService {
         String secret = tfaService.generateNewSecret();
         user.setSecret(secret);
         repository.save(user);
-        return new RegisterResponseDto(tfaService.generateQrCodeImageUri(secret));
+        return new RegisterResponseDto(tfaService.generateQrCodeImageUri(secret, user.getName()));
     }
 }
