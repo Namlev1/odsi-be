@@ -40,6 +40,7 @@ dependencies {
     implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.5.3.Final'
     implementation group: 'org.jsoup', name: 'jsoup', version: '1.18.3' // html parser
     implementation group: 'dev.samstevens.totp', name: 'totp', version: '1.7.1'
+    implementation group: 'org.bouncycastle', name: 'bcprov-jdk18on', version: '1.78.1'
 }
 
 tasks.named('test') {
