@@ -26,7 +26,7 @@ public class LoginService {
 
     public UserDto login(CredentialsDto credentialsDto) {
         try {
-            Thread.sleep(3000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
