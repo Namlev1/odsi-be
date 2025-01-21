@@ -36,6 +36,4 @@ public class AuthController {
         tokenBlacklistService.blacklistToken(extractedToken);
         return ResponseEntity.ok().build();
     }
-
-    // TODO token refresh
 }
