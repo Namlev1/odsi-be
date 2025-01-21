@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class HtmlParser {
     public String sanitizeContent(String content) {
-        return Jsoup.clean(content, Safelist.basicWithImages());
+        Safelist safelist = Safelist.basicWithImages()
+                .addTags("h1", "h2", "h3", "br");
+        return Jsoup.clean(content, safelist);
     }
 }
