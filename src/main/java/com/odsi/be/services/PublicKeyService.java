@@ -19,12 +19,6 @@ public class PublicKeyService {
         userService.save(user);
     }
 
-    @Transactional
-    public void removePublicKey(User user) {
-        user.setPublicKey("");
-        userService.save(user);
-    }
-
     public String getPublicKey(User user) {
         return user.getPublicKey();
     }

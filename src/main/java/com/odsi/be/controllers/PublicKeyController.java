@@ -33,11 +33,4 @@ public class PublicKeyController {
     public ResponseEntity<?> getKey(@PathVariable Long id) {
         return ResponseEntity.ok(publicKeyService.getPublicKeyByUserId(id));
     }
-
-    // todo decide if you want this actually, this revokes current signed posts.
-    @DeleteMapping("/me")
-    public ResponseEntity<?> removeKey(@AuthenticationPrincipal User user) {
-        publicKeyService.removePublicKey(user);
-        return ResponseEntity.ok().build();
-    }
 }
