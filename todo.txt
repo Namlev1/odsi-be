@@ -1,7 +1,0 @@
-salt, pepper, argon2
-time delay podczas logowania
-nieudana ilość prób logowania
-logging
-zmiana hasła
-dużo więcej walidacji danych z negatywnym nastawieniem
-użytkownik musi mieć swój mail XD

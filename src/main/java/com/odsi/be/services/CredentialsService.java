@@ -8,10 +8,12 @@ import com.odsi.be.model.user.UserRepository;
 import com.odsi.be.security.validation.PasswordValidator;
 import com.odsi.be.security.validation.UsernameValidator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Log
 public class CredentialsService {
     private final CredentialsConverter converter;
     private final UserRepository repository;
@@ -36,6 +38,7 @@ public class CredentialsService {
         String secret = tfaService.generateNewSecret();
         user.setSecret(secret);
         repository.save(user);
+        log.info("Created new user " + user.getName() + " with ID: " + user.getId());
         return new RegisterResponseDto(tfaService.generateQrCodeImageUri(secret, user.getName()));
     }
 }

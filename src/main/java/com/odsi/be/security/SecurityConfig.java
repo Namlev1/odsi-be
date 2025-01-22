@@ -6,6 +6,8 @@ import com.odsi.be.security.jwt.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -24,6 +26,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
     private final UserAuthenticationEntryPoint userAuthenticationEntryPoint;
     private final UserAuthProvider userAuthProvider;
+    private final CustomUserDetailsService userDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -43,6 +46,14 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 );
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(userDetailsService)
+                .and()
+                .build();
     }
 
     @Bean

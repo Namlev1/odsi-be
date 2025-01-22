@@ -10,6 +10,7 @@ import com.odsi.be.model.user.UserRepository;
 import com.odsi.be.security.validation.PostValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.hibernate.StaleObjectStateException;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Log
 public class PostService {
     private final PostRepository repository;
     private final PostConverter converter;
@@ -74,6 +76,7 @@ public class PostService {
 
         try {
             Post savedPost = repository.save(post);
+            log.info("New post with ID: " + post.getId());
             return converter.toDto(savedPost);
         } catch (StaleObjectStateException e) {
             throw new RuntimeException("Invalid post id");
