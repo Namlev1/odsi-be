@@ -30,12 +30,23 @@ public class LoginService {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-        throwIfInvalid(credentialsDto);
-        User user = userService.findByName(credentialsDto.username());
-
-        if (!passwordEncoder.matches(CharBuffer.wrap(credentialsDto.password()), user.getPassword())) {
+        User user;
+        try {
+            user = userService.findByName(credentialsDto.username());
+        } catch (RuntimeException e) {
             throw new RuntimeException("Invalid credentials");
         }
+
+        if (user.isLocked()) {
+            throw new RuntimeException("This user is locked. Please follow instructions at your email account.");
+        }
+
+        if (!passwordEncoder.matches(CharBuffer.wrap(credentialsDto.password()), user.getPassword())) {
+            userService.addFailedAttempt(user);
+            throw new RuntimeException("Invalid credentials");
+        }
+
+        userService.unlock(user);
         UserDto userDto = userConverter.toDto(user);
 
         if (credentialsDto.tfaCode() != null) {

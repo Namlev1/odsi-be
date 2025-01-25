@@ -83,6 +83,13 @@ public class PostService {
         }
     }
 
+    private String normalizeContent(String content) {
+        return content
+                .replaceAll("\\s+", " ") // Replace multiple spaces with a single space
+                .replaceAll(">\\s+<", "><") // Remove spaces between tags
+                .trim(); // Trim leading and trailing spaces
+    }
+    
     private void throwIfInvalidSignature(User user, Post post) {
         String pubKey = user.getPublicKey();
         if (pubKey == null) {
@@ -90,6 +97,9 @@ public class PostService {
         }
         String signature = post.getSignature();
         String content = post.getContent();
+
+        String normalizedContent = normalizeContent(content); // Normalize content
+        System.out.println("Normalized content being verified: " + normalizedContent);
 
         try {
             // Convert the PEM-formatted public key to a usable PublicKey object
@@ -107,12 +117,11 @@ public class PostService {
             // Decode the signature from Base64
             byte[] signatureBytes = Base64.getDecoder().decode(signature);
 
-            verifySignature(publicKey, content, signatureBytes);
+            verifySignature(publicKey, normalizedContent, signatureBytes);
         } catch (Exception e) {
             throw new InvalidPostException("An error occurred while verifying the signature: " + e.getMessage());
         }
     }
-
     public boolean isSignatureCorrect(Long id) {
         Post post = postRepository.findById(id).orElseThrow();
         User user = post.getUser();

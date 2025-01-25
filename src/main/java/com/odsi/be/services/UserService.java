@@ -32,4 +32,13 @@ public class UserService {
         return userDetailsConverter.toDto(findByName(username));
     }
 
+    public void addFailedAttempt(User user) {
+        user.addFailedAttempt();
+        userRepository.save(user);
+    }
+
+    public void unlock(User user) {
+        user.unlock();
+        userRepository.save(user);
+    }
 }

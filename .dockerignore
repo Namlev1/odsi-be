@@ -1,0 +1,8 @@
+.gradle
+.idea
+*.iml
+*.log
+*.class
+*.jar
+*.war
+.DS_Store

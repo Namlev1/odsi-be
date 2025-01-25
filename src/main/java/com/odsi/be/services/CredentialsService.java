@@ -5,6 +5,7 @@ import com.odsi.be.model.credentials.CredentialsDto;
 import com.odsi.be.model.credentials.RegisterResponseDto;
 import com.odsi.be.model.user.User;
 import com.odsi.be.model.user.UserRepository;
+import com.odsi.be.security.validation.EmailValidator;
 import com.odsi.be.security.validation.PasswordValidator;
 import com.odsi.be.security.validation.UsernameValidator;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class CredentialsService {
     private final UserRepository repository;
     private final PasswordValidator passwordValidator;
     private final UsernameValidator usernameValidator;
+    private final EmailValidator emailValidator;
     private final TwoFactorAuthenticationService tfaService;
 
     // No sql injection, because "username" doesn't allow '()',
@@ -29,6 +31,9 @@ public class CredentialsService {
         }
         if (!usernameValidator.isValid(dto.username())) {
             throw new IllegalArgumentException("Invalid username");
+        }
+        if (!emailValidator.isValid(dto.email())) {
+            throw new IllegalArgumentException("Invalid email");
         }
         if (repository.existsByName(dto.username())) {
             throw new IllegalArgumentException("User with this name already exists");

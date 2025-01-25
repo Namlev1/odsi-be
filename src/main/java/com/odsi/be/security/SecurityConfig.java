@@ -61,8 +61,8 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(false);
+        config.addAllowedOrigin("https://localhost"); // todo prod
         config.addAllowedOrigin("http://localhost:5173");
-        config.addAllowedOrigin("https://localhost:5173");
         config.addAllowedHeader("Content-Type");
         config.addAllowedHeader("Authorization");
         config.addAllowedMethod("GET");

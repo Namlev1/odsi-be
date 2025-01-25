@@ -29,6 +29,9 @@ public class User implements UserDetails {
     private String secret;
     @Column(length = 500)
     private String publicKey;
+    private String email;
+    private int failedAttempts;
+    private boolean isLocked;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
@@ -58,5 +61,17 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return name;
+    }
+
+    public void addFailedAttempt() {
+        failedAttempts++;
+        if (failedAttempts >= 5) {
+            isLocked = true;
+        }
+    }
+
+    public void unlock() {
+        failedAttempts = 0;
+        isLocked = false;
     }
 }
