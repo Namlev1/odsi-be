@@ -17,9 +17,21 @@ public class ChangePasswordService {
     private final PasswordEncoder passwordEncoder;
     private final PasswordValidator passwordValidator;
     private final UserRepository userRepository;
+    private final TwoFactorAuthenticationService tfaService;
 
     public void changePassword(User user, ChangePasswordDto dto) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
         throwIfInvalid(user, dto);
+
+        if (dto.tfaCode() == null) {
+            return;
+        }
+
+        processTfaCode(user, dto);
         String encodedPassword = passwordEncoder.encode(dto.newPassword());
         user.setPassword(encodedPassword);
         userRepository.save(user);
@@ -37,6 +49,12 @@ public class ChangePasswordService {
         }
         if (!dto.newPassword().equals(dto.confirmPassword())) {
             throw new CredentialsException("New password does not match confirmed password");
+        }
+    }
+
+    private void processTfaCode(User user, ChangePasswordDto dto) {
+        if (tfaService.isOtpNotValid(user.getSecret(), dto.tfaCode())) {
+            throw new RuntimeException("Invalid code");
         }
     }
 }
