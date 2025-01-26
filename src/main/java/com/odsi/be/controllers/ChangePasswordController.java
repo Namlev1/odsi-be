@@ -1,6 +1,5 @@
 package com.odsi.be.controllers;
 
-import com.odsi.be.exceptions.CredentialsException;
 import com.odsi.be.model.changePassword.ChangePasswordDto;
 import com.odsi.be.model.user.User;
 import com.odsi.be.services.ChangePasswordService;
@@ -23,7 +22,7 @@ public class ChangePasswordController {
         try {
             changePasswordService.changePassword(user, dto);
             return ResponseEntity.ok().build();
-        } catch (CredentialsException e) {
+        } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
