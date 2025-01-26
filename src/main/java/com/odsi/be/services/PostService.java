@@ -80,6 +80,8 @@ public class PostService {
             return converter.toDto(savedPost);
         } catch (StaleObjectStateException e) {
             throw new RuntimeException("Invalid post id");
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Could not save the post. The context or title is too long");
         }
     }
 
@@ -89,7 +91,7 @@ public class PostService {
                 .replaceAll(">\\s+<", "><") // Remove spaces between tags
                 .trim(); // Trim leading and trailing spaces
     }
-    
+
     private void throwIfInvalidSignature(User user, Post post) {
         String pubKey = user.getPublicKey();
         if (pubKey == null) {
@@ -122,6 +124,7 @@ public class PostService {
             throw new InvalidPostException("An error occurred while verifying the signature: " + e.getMessage());
         }
     }
+
     public boolean isSignatureCorrect(Long id) {
         Post post = postRepository.findById(id).orElseThrow();
         User user = post.getUser();
